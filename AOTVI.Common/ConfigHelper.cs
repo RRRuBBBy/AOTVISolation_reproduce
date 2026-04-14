@@ -27,6 +27,11 @@ namespace AOTVI.Common
 
             return conn;
         }
+
+        public static bool IsDemoMode()
+        {
+            return Get("DemoMode") == "true";
+        }
     }
 
 

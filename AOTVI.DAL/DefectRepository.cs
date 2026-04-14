@@ -2,6 +2,7 @@
 using System.Data.SqlClient;
 using System.Data;
 using AOTVI.Models;
+using System.Threading.Tasks;
 
 namespace AOTVI.DAL
 {
@@ -9,9 +10,9 @@ namespace AOTVI.DAL
     {
         DbHelper db = new DbHelper();
 
-        public DataTable GetByLot(string lot)
+        public async Task<DataTable> GetByLotAsync(string lot)
         {
-            return db.Query(
+            return  await   db.QueryAsync(
                 "SELECT * FROM Log_AVI_Defect WHERE LotNumber=@lot",
                 new[] { new SqlParameter("@lot", lot) });
         }

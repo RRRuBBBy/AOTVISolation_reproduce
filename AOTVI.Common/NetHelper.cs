@@ -14,9 +14,6 @@ namespace AOTVI.Common
         public static bool IsPortOpen(string ip, int port, int timeout = 1000)
         {
 
-            //var (ip, port) = DbConnHelper.GetDbEndpoint();
-
-            //return  NetHelper.IsPortOpen(ip, port);
             try
             {
 
