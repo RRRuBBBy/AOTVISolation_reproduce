@@ -23,7 +23,6 @@ namespace AOTVI.DAL
                 }
                 catch (Exception ex)
                 {
-                    //LogService.Error("数据库连接异常", ex);
                     throw; 
                 }
             }

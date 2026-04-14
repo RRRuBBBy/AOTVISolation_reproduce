@@ -107,19 +107,10 @@ namespace AOTVI.BLL
                 || !char.IsLetter(lot.Substring(9, 1)[0]))
             {
                 msg = "格式错误";
-                //LogService.Info($"Scan Lot 失败: {lot}");
+                LogService.Info($"Scan Lot 失败: {lot}");
                 return false ;
             }
 
-
-            //int lina;
-            //if ((lot[0] != '8' && lot[0] != '7' && lot[0] != 'S') ||
-            //    !int.TryParse(lot.Substring(8, 1), out lina) ||
-            //    !char.IsLetter(lot[9]))
-            //{
-            //    msg = "格式错误";
-            //    return false;
-            //}
 
             return true;
         }

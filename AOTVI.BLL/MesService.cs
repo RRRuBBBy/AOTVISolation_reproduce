@@ -35,20 +35,5 @@ namespace AOTVI.BLL
             }
         }
 
-        //private readonly string url = "http://mes/api/aoi"; // 
-
-        //public async Task<bool> UploadAsync(MesLotResult data)
-        //{
-        //    using (HttpClient client = new HttpClient())
-        //    {
-        //        string json = JsonConvert.SerializeObject(data);
-
-        //        var content = new StringContent(json, Encoding.UTF8, "application/json");
-
-        //        var response = await client.PostAsync(url, content);
-
-        //        return response.IsSuccessStatusCode;
-        //    }
-        //}
     }
 }

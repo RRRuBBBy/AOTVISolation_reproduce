@@ -273,7 +273,6 @@ namespace AOTVI.UI
 
         }
 
-        //private bool isChecking = false;
         private async void timer1_Tick(object sender, EventArgs e)
         {
 
@@ -292,33 +291,7 @@ namespace AOTVI.UI
                 LogService.Error("状态检测异常", ex);
             }
 
-            //if (isChecking) return;
-            //isChecking = true;
 
-            //try
-            //{
-            //    bool db = await Task.Run(() => NetHelper.IsPortOpen("127.0.0.1", 1433));
-            //    lblDb.BackColor = db ? Color.Lime : Color.Red;
-            //}
-            //catch (Exception ex)
-            //{
-            //    LogService.Error("检测异常", ex);
-            //}
-            //finally
-            //{
-            //    isChecking = false;
-            //}
-
-
-
-
-            //bool db = NetHelper.IsPortOpen("127.0.0.1", 1433);
-
-            //lblDb.BackColor = db ? Color.Lime : Color.Red;
-
-            //bool mes = NetHelper.IsPortOpen("127.120.0.1", 1433);
-
-            //lblmes.BackColor = mes ? Color.Lime : Color.Red;
         }
     }
 }
