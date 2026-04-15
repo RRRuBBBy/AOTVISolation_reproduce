@@ -49,7 +49,7 @@
             this.txtLot.Name = "txtLot";
             this.txtLot.Size = new System.Drawing.Size(393, 28);
             this.txtLot.TabIndex = 0;
-            this.txtLot.TextChanged += new System.EventHandler(this.txtLot_TextChanged);
+            //this.txtLot.TextChanged += new System.EventHandler(this.txtLot_TextChanged);
             // 
             // btnConfirm
             // 
@@ -68,7 +68,7 @@
             this.lblMsg.Size = new System.Drawing.Size(396, 33);
             this.lblMsg.TabIndex = 2;
             this.lblMsg.Text = "请扫码";
-            this.lblMsg.Click += new System.EventHandler(this.lblMsg_Click);
+            //this.lblMsg.Click += new System.EventHandler(this.lblMsg_Click);
             // 
             // panelMain
             // 
@@ -104,22 +104,22 @@
             // 
             // lblDb
             // 
-            this.lblDb.AutoSize = true;
-            this.lblDb.Location = new System.Drawing.Point(1146, 179);
+            this.lblDb.Location = new System.Drawing.Point(1138, 179);
             this.lblDb.Name = "lblDb";
-            this.lblDb.Size = new System.Drawing.Size(62, 18);
+            this.lblDb.Size = new System.Drawing.Size(70, 20);
             this.lblDb.TabIndex = 5;
             this.lblDb.Text = "数据库";
+            this.lblDb.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // lblmes
             // 
-            this.lblmes.AutoSize = true;
-            this.lblmes.Location = new System.Drawing.Point(1161, 230);
+            this.lblmes.Location = new System.Drawing.Point(1138, 228);
             this.lblmes.Name = "lblmes";
-            this.lblmes.Size = new System.Drawing.Size(35, 18);
+            this.lblmes.Size = new System.Drawing.Size(70, 20);
             this.lblmes.TabIndex = 6;
             this.lblmes.Text = "MES";
-            this.lblmes.Click += new System.EventHandler(this.lblmes_Click);
+            this.lblmes.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            //this.lblmes.Click += new System.EventHandler(this.lblmes_Click);
             // 
             // lblNotice
             // 
@@ -129,7 +129,7 @@
             this.lblNotice.Size = new System.Drawing.Size(341, 18);
             this.lblNotice.TabIndex = 7;
             this.lblNotice.Text = "模拟中：输入A开头的任意10位字符并回车";
-            this.lblNotice.Click += new System.EventHandler(this.label1_Click);
+            //this.lblNotice.Click += new System.EventHandler(this.label1_Click);
             // 
             // Form1
             // 

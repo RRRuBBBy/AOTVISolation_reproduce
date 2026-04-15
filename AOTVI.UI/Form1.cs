@@ -23,7 +23,7 @@ namespace AOTVI.UI
         private List<Defect> defects = new List<Defect>();
 
         private string currentLot = "";
-        private string currentUser = "OP001";
+        private string currentUser = "OP001";//后续添加注册系统
 
         private Image aoiImage;
 
@@ -73,7 +73,6 @@ namespace AOTVI.UI
             {
                 e.Handled = true;          
                 e.SuppressKeyPress = true; 
-
                 await  ScanLotAsync(txtLot.Text.Trim());
             }
         }
@@ -123,15 +122,13 @@ namespace AOTVI.UI
                     return;
                 }
 
-
-
                 currentLot = lot;
                 LogService.Info($"Scan Lot: {lot}");
                 //await defectService.LoadDefectsAsync(lot);
                 //defects = await Task.Run(() =>  defectService.LoadDefects(lot));
                 defects = await defectService.LoadDefectsAsync(lot);
 
-                // 测试用图片
+                // 测试用图片，后续变更为model对象
                 aoiImage?.Dispose();
                 aoiImage = new Bitmap(800, 600);
                 Random rand = new Random();
@@ -153,14 +150,20 @@ namespace AOTVI.UI
             }
             catch (Exception ex)
             {
-                lblMsg.Text = "系统异常";
+                txtLot.Clear();
+                currentLot = "";
+
+
+                lblMsg.Text = "系统异常,请联系工程师";
                 LogService.Error("ScanLot异常", ex);
             }
             finally
             {
+                
                 isLoading = false;
                 SetUiEnabled(true);  // 加载完成
                 txtLot.Focus();
+
             }
             
         }
@@ -234,126 +237,23 @@ namespace AOTVI.UI
             pictureBox1.Invalidate();
         }
 
-        /// <summary>
-        /// 确认提交
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        //private bool isSubmitting = false;
-        //private async void btnConfirm_Click(object sender, EventArgs e)
-        //{
-        //    if (isSubmitting) return;
-        //    if (string.IsNullOrEmpty(currentLot))
-        //    {
-        //        lblMsg.Text = "请先扫码";
-        //        return;
-        //    }
-
-        //    isSubmitting = true;
-        //    btnConfirm.Enabled = false;
-        //    try
-        //    {
-        //        if (defects == null || defects.Count == 0)
-        //        {
-        //            lblMsg.Text = "无数据";
-        //            return;
-        //        }
-        //        if (defects.All(d => !d.IsNG))
-        //        {
-        //            var r = MessageBox.Show(
-        //                "当前全部OK，是否确认？",
-        //                "提示",
-        //                MessageBoxButtons.YesNo);
-
-        //            if (r != DialogResult.Yes)
-        //                return;
-        //        }
-        //        // 1 保存数据库
-        //        await Task.Run(() =>  defectService.SaveResult(currentLot, defects));
-
-        //        // 2 判断整板结果
-        //        string result = defectService.GetLotResult(defects);
-
-        //        // 3 日志
-        //        LogService.Info($"Lot:{currentLot} Result:{result}");
-
-        //        // 4 MES数据
-        //        MesLotResult mes = new MesLotResult
-        //        {
-        //            LotNumber = currentLot,
-        //            Result = result,
-        //            User = currentUser,
-        //            Defects = defects
-        //        };
-
-        //        // 5 上传MES
-        //        bool ok = await mesService.UploadAsync(mes);
-
-        //        if (ok)
-        //        {
-        //            lblMsg.Text = "提交成功";
-        //            LogService.Info($"MES OK: {currentLot}");
-        //        }
-        //        else
-        //        {
-        //            lblMsg.Text = "MES失败";
-        //            LogService.Error($"MES FAIL: {currentLot}", null);
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        lblMsg.Text = "提交异常";
-        //        LogService.Error("提交异常", ex);
-        //    }
-        //    finally
-        //    {
-        //        isSubmitting = false;
-        //        btnConfirm.Enabled = true;
-
-        //        currentLot = "";
-        //        defects.Clear();
-
-        //        aoiImage?.Dispose();
-        //        aoiImage = null;
-        //        pictureBox1.Image = null;
-
-        //        pictureBox1.Invalidate();
-
-
-        //        //isSubmitting = false;
-        //        //btnConfirm.Enabled = true;
-        //        //// 清空
-        //        //currentLot = "";
-        //        //defects.Clear();
-        //        //aoiImage = null;              
-        //        //pictureBox1.Image = null;    
-        //        //pictureBox1.Invalidate();
-        //    }
-
-        //    //// 清空
-        //    //defects.Clear();
-        //    //pictureBox1.Invalidate();
-        //}
-
-
         private void Form1_Load(object sender, EventArgs e)
         {
             LogService.Info("启动");
 
-            lblNotice.Text = "模拟中：请输入A开头的任意10位字符并回车\r\n        点击提示框后按确认";
+            if (ConfigHelper.IsDemoMode())
+            {
+                lblNotice.Text = "模拟中：请输入A开头的任意10位字符并回车\r\n        点选提示框后点击确认";
+            }
+            else
+            {
+                lblNotice.Text = "非模拟状态，请注意数据库连接";
+            }
+            
             timer1.Interval = 5000; // 1秒
             timer1.Start();
         }
 
-        private void lblMsg_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void txtLot_TextChanged(object sender, EventArgs e)
-        {
-
-        }
 
         private async void timer1_Tick(object sender, EventArgs e)
         {
@@ -398,13 +298,18 @@ namespace AOTVI.UI
 
             try
             {
+                
                 var result = await ExecuteSubmitAsync();
-
+                
                 HandleSubmitResult(result);
+                LogService.Info($"提交成功:{currentLot }");
+                lblMsg.Text = "请扫码";
             }
             catch (Exception ex)
             {
-                lblMsg.Text = "提交异常";
+
+                lblMsg.Text = "提交异常，请联系工程师";
+                lblMsg.ForeColor = Color.Red;   
                 LogService.Error("提交异常", ex);
             }
             finally
@@ -481,7 +386,6 @@ namespace AOTVI.UI
             isSubmitting = false;
             btnConfirm.Enabled = true;
             txtLot.Enabled = true; 
-            lblMsg.Text = "请扫码";
             txtLot.Text = "";
             txtLot.Focus();
             currentLot = "";
@@ -495,14 +399,5 @@ namespace AOTVI.UI
         }
         #endregion
 
-        private void lblmes_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void label1_Click(object sender, EventArgs e)
-        {
-
-        }
     }
 }
